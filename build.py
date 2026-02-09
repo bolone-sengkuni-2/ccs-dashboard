@@ -58,7 +58,7 @@ def build_and_push_docker(tag):
                 f"{image_name}:{tag}",
                 "-t",
                 f"{image_name}:latest",
-                "./temp_repo",
+                "./temp_repo/ccs/docker",
             ]
         )
         # Push
