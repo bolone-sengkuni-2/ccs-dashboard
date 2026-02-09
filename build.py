@@ -48,6 +48,14 @@ def build_and_push_docker(tag):
     print(f"Building Docker image for tag {tag}...")
     image_name = "ghcr.io/bolone-sengkuni-2/ccs-dashboard"
 
+    # Copy local Dockerfile and entrypoint.sh to temp_repo
+    print("Copying custom Dockerfile and entrypoint.sh...")
+    shutil.copy("Dockerfile", "./temp_repo/Dockerfile")
+
+    # Ensure docker directory exists
+    os.makedirs("./temp_repo/docker", exist_ok=True)
+    shutil.copy("entrypoint.sh", "./temp_repo/docker/entrypoint.sh")
+
     try:
         # Build
         subprocess.check_call(
@@ -58,7 +66,7 @@ def build_and_push_docker(tag):
                 f"{image_name}:{tag}",
                 "-t",
                 f"{image_name}:latest",
-                "./temp_repo/docker",
+                "./temp_repo",
             ]
         )
         # Push
